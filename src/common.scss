@@ -1,0 +1,7 @@
+$primary: #4484ce;
+$mobileSize: 768px;
+@mixin flexCenter {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}

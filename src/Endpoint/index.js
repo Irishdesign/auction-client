@@ -1,0 +1,13 @@
+export const SIGNUP_API = "https://autcion.herokuapp.com/api/auth/signup";
+export const LOGIN_API = "https://autcion.herokuapp.com/api/auth/signin";
+export const MENU_API = "https://autcion.herokuapp.com/api/auction/list";
+export const USER_API = "https://autcion.herokuapp.com/api/auth/user";
+export const create_AUCTION_API = "https://autcion.herokuapp.com/api/auction";
+export const get_AUCTION_API = (no) => `https://autcion.herokuapp.com/api/auction/${no}`;
+export const get_PLAYER_AUCTION_API = (no) => `https://autcion.herokuapp.com/api/auction/player/${no}`;
+export const create_ORDER_API = (no) => `https://autcion.herokuapp.com/api/auction/${no}/order`;
+export const create_PLAYER_API = (no) => `https://autcion.herokuapp.com/api/auction/${no}/player`;
+export const start_AUCTION_API = (no) => `https://autcion.herokuapp.com/api/auction/${no}/start`;
+export const close_AUCTION_API = (no) => `https://autcion.herokuapp.com/api/auction/${no}/close`;
+export const GET = "get";
+export const POST = "post";

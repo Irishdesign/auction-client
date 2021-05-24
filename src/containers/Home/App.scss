@@ -1,0 +1,21 @@
+.StatisticPanel {
+    //  top: 60px;
+    //  position: fixed;
+    position: absolute;
+    padding-left: 15px;
+    padding-top: 70px;
+    width: 300px;
+}
+
+.sideMenu {
+    width: 200px;
+    padding-top: 55px;
+}
+.container{
+    display: flex;
+    .auctionBlock{
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 80px;
+    }
+}

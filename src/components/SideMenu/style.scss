@@ -1,0 +1,7 @@
+.ant-menu-sub.ant-menu-inline {
+    max-height: 200px;
+    overflow: scroll;
+    .ant-menu-item.ant-menu-item-only-child {
+        width: 180px;
+    }
+}
