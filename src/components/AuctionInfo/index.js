@@ -3,6 +3,7 @@ import { Descriptions } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import * as util from "../../utils";
 import * as constants from "../../constants";
+import { Link } from "react-router-dom";
 const AuctionInfo = (props) => {
     const { visible, close, data, isPlayer, playerInfo } = props;
     const {
@@ -50,9 +51,9 @@ const AuctionInfo = (props) => {
         <>
             <Descriptions title={"Title: " + title} column={5} vertical>
                 <Descriptions.Item label="No" span={3}>
-                    <a href={`/invitation?title=${title}&no=${no}`} target="_blank">
+                    <Link to={`/invitation?title=${title}&no=${no}`} target="_blank">
                         {no}
-                    </a>
+                    </Link>
                 </Descriptions.Item>
                 <Descriptions.Item label="Start at">{formatTime(start_time) || blank}</Descriptions.Item>
                 {close_time ? (

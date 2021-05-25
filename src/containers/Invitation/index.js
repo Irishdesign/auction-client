@@ -3,6 +3,7 @@ import "./App.scss";
 import InvitationHeader from "../../components/InvitationHeader";
 import queryString from "query-string";
 const QRCode = require("qrcode.react");
+import { Link } from "react-router-dom";
 const base_url = process.env.REACT_APP_BASE || "https://autcion.herokuapp.com/";
 function App(props) {
     const [info, setInfo] = React.useState({});
@@ -28,7 +29,9 @@ function App(props) {
                         <QRCode value={url} />
                     </div>
                     <div>
-                        <a href={url}>{url}</a>
+                        <Link to={url} target="_blank">
+                            {url}
+                        </Link>
                     </div>
                 </div>
             </div>
