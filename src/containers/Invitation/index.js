@@ -4,7 +4,7 @@ import "./App.scss";
 import InvitationHeader from "../../components/InvitationHeader";
 import queryString from "query-string";
 const QRCode = require("qrcode.react");
-const base_url = process.env.REACT_APP_BASE || "https://autcion.herokuapp.com/";
+const base_url = process.env.REACT_APP_BASE || "https://competent-hamilton-0a00a7.netlify.app";
 function App(props) {
     const [info, setInfo] = React.useState({});
     React.useEffect(() => {
