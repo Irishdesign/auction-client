@@ -12,7 +12,7 @@ function App(props) {
 
     function QueryParamsDemo() {
         let query = queryString.parse(props.location.search);
-        console.log(query);
+      //   console.log(query);
         setInfo(query);
     }
     const url = `/bid?no=${info.no}`;

@@ -37,6 +37,7 @@ const NavBar = (props) => {
     const checkUser = async () => {
         const info = await util.getUserInfo();
         console.log(info);
+        if (!info) return;
         if (info.status >= 400) {
             message.warning(info.message);
             return;

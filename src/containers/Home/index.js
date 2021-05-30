@@ -8,10 +8,8 @@ import SideMenu from "../../components/SideMenu";
 import AuctionInfo from "../../components/AuctionInfo";
 import Orders from "../../components/Orders";
 import { useSelector, useDispatch } from "react-redux";
-// import StatisticPanel from "../../components/StatisticPanel";
-// import { setCurrentCountry } from "../../store/action";
 import * as utils from "../../utils";
-import { Button, InputNumber } from "antd";
+import { Button, InputNumber, message } from "antd";
 import * as constants from "../../constants";
 import Players from "../../components/Players";
 import * as action from "../../store/action";
@@ -19,15 +17,13 @@ import queryString from "query-string";
 
 function App(props) {
     const [no, setNo] = React.useState();
-    const [myPrice, setMyPrice] = React.useState(0);
+    const [myDeduct, setMyDeduct] = React.useState(0);
     const [isClosed, setIsClosed] = useState(false);
-    //  const [drawerData, setDrawerData] = useState({});
     const current_auction_data = useSelector((state) => state.currentAuction);
     const showMenu = useSelector((state) => state.showMenu);
     const dispatch = useDispatch();
     React.useEffect(() => {
         QueryParamsDemo();
-        console.log(current_auction_data, 8888777);
     }, [props]);
 
     function QueryParamsDemo() {
@@ -59,17 +55,17 @@ function App(props) {
         switch (type) {
             case "getMenu":
                 res = await utils.getMenu();
-                console.log(res);
+                //  console.log(res);
                 return;
             case "createAuction":
                 res = await utils.createAuction(auction);
                 setNo(res.no);
-                console.log(res);
+                //  console.log(res);
                 return;
             case "createPlayer":
                 const name = "Ird77i";
                 res = await utils.createPlayer(no, name);
-                console.log(res); //@TODO 缺 auction infomation
+                //  console.log(res); //@TODO 缺 auction infomation
                 return;
             case "createOrder":
                 const order = {
@@ -133,18 +129,20 @@ function App(props) {
             });
         }, 1000);
     }
-    const handleDeductPrice = async (isDutch) => {
-        //   console.log(price);
-        //   const sendData = {
-        //       player_id: playerData.id,
-        //       price: isDutch ? current_auction_data.current_price : myPrice,
-        //   };
-        //   const res = await utils.createOrder(current_auction_data.no, sendData);
-        //   if (res.status >= 400) {
-        //       message.warning(res.message);
-        //       return;
-        //   }
-        //   message.success(`Your order(price at${sendData.price}) had been sent`);
+    const handleDeductPrice = async () => {
+        if (current_auction_data.current_price - myDeduct < 0) {
+            message.success(`Current price - deduction is less than 0`);
+            return;
+        }
+        if (myDeduct === 0) {
+            return;
+        }
+        const res = await utils.deductAuction(current_auction_data.no, myDeduct);
+        if (res.status >= 400) {
+            message.warning(res.message);
+            return;
+        }
+        message.success(`Current price is ${res.current_price}`);
     };
     return (
         <div className="App">
@@ -173,9 +171,9 @@ function App(props) {
                             </Button>
                         </div>
                         <AuctionInfo data={current_auction_data} />
-                        {current_auction_data.auc_type === constants.AUC_TYPE.DUTCH ? (
+                        {current_auction_data.auc_type === constants.AUC_TYPE.DUTCH && !current_auction_data.is_auto ? (
                             <div className="myOrder">
-                                <InputNumber onChange={(v) => setMyPrice(v)} />
+                                <InputNumber onChange={(v) => setMyDeduct(v)} value={myDeduct} />
                                 <Button
                                     type="primary"
                                     onClick={() => {
@@ -186,14 +184,19 @@ function App(props) {
                                 </Button>
                                 <Button
                                     onClick={() => {
-                                        setMyPrice("");
+                                        setMyDeduct(0);
                                     }}
                                 >
                                     Reset
                                 </Button>
                             </div>
                         ) : null}
-                        <Orders data={current_auction_data.orders} />
+                        <Orders
+                            data={current_auction_data.orders}
+                            hasWinner={current_auction_data.close_time}
+                            chooseSecond={current_auction_data.auc_type === constants.AUC_TYPE.SEALED2}
+                            reservationPrice={current_auction_data.reservation_price || 0}
+                        />
                         <Players data={current_auction_data.players} />
                     </div>
                 )}

@@ -9,7 +9,7 @@ import * as utils from "../../utils";
 import { useSelector, useDispatch } from "react-redux";
 import InvitationHeader from "../../components/InvitationHeader";
 import queryString from "query-string";
-import { setPlayerData, setCurrentAuction } from "../../store/action";
+import { setPlayerData } from "../../store/action";
 const layout = {
     labelCol: {
         span: 8,
@@ -30,11 +30,12 @@ function App(props) {
     const [myPrice, setMyPrice] = React.useState(0);
     const playerData = useSelector((state) => state.playerData);
     const showPlayerPage = useSelector((state) => state.showPlayerPage);
-    const current_auction_data = useSelector((state) => state.currentAuction);
-
+    const [leftValue, setLeftValue] = React.useState();
+    const [playerAuctionData, setPlayerAuctionData] = React.useState({});
     const dispatch = useDispatch();
     React.useEffect(() => {
         QueryParamsDemo();
+        updateWithCountDown();
     }, [props]);
     const onFinish = async (values) => {
         const { auctionNo, name } = values;
@@ -44,15 +45,16 @@ function App(props) {
             return;
         }
         dispatch(setPlayerData(res));
-        dispatch(setCurrentAuction(res.auction));
+      //   setPlayerAuctionData(res.auction);
         setMyPrice("");
-        updateWithCountDown();
+        //   updateWithCountDown();
     };
     function QueryParamsDemo() {
         let query = queryString.parse(props.location.search);
         form.setFieldsValue({
             auctionNo: query.no,
         });
+        return  query.no;
     }
     const onFill = () => {
         form.setFieldsValue({
@@ -60,26 +62,39 @@ function App(props) {
             name: "",
         });
     };
+   //  const handleTimerUpdate = async ()=>{
+   //    const res = await utils.createOrder(playerAuctionData.no, sendData);
+   //  }
     const handleCreateOrder = async (isDutch) => {
         //   console.log(price);
         const sendData = {
             player_id: playerData.id,
-            price: isDutch ? current_auction_data.current_price : myPrice,
+            price: isDutch ? playerAuctionData.current_price : myPrice,
         };
-        const res = await utils.createOrder(current_auction_data.no, sendData);
+        if (sendData.price > playerData.current_value) {
+            message.error(`The price is less than you're current value`);
+            return;
+        }
+        const res = await utils.createOrder(playerAuctionData.no, sendData);
 
         if (res.status >= 400) {
             message.warning(res.message);
             return;
         }
+
+        setLeftValue(res.left_value);
         message.success(`Your order(price at${sendData.price}) had been sent`);
     };
     function updateWithCountDown() {
         setTimeout(function () {
-            const res = utils.getAuction(current_auction_data.no);
+            const res = utils.getPlayerAuction(QueryParamsDemo());
             res.then((data) => {
                 if (data) {
-                    dispatch(setCurrentAuction(data));
+                    setPlayerAuctionData(data);
+                  //   console.log(77777,data)
+                    if(data.auc_type === constants.AUC_TYPE.DUTCH){
+                       setMyPrice(data.current_price);
+                    }
                     if (!data.close_time) {
                         updateWithCountDown();
                     }
@@ -93,9 +108,9 @@ function App(props) {
             <div className="container">
                 {showPlayerPage ? (
                     <div className="auctionBlock">
-                        <AuctionInfo data={current_auction_data} isPlayer={true} playerInfo={playerData} />
-                        <div className="currentPrice">current price: {current_auction_data.current_price || "-"}</div>
-                        {current_auction_data.type === constants.AUC_TYPE.DUTCH ? (
+                        <AuctionInfo data={playerAuctionData} isPlayer={true} playerInfo={playerData} leftValue={leftValue} />
+                        <div className="currentPrice">current price: {playerAuctionData?.current_price || "-"}</div>
+                        {playerAuctionData?.type === constants.AUC_TYPE.DUTCH ? (
                             <Button
                                 type="primary"
                                 onClick={() => {
@@ -106,7 +121,7 @@ function App(props) {
                             </Button>
                         ) : null}
                         <div className="myOrder">
-                            <InputNumber onChange={(v) => setMyPrice(v)} />
+                            <InputNumber onChange={(v) => setMyPrice(v)} value={myPrice}/>
                             <Button
                                 type="primary"
                                 onClick={() => {

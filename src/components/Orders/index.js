@@ -3,12 +3,16 @@ import { Descriptions, Table } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 
 const Orders = (props) => {
-    const { visible, close, data } = props;
+    const { visible, close, data, hasWinner, chooseSecond, reservationPrice } = props;
     const formatData = (d) =>
         d &&
-        d.map((ele) => {
+        d.map((ele, idx) => {
+            const winnerIdx = chooseSecond ? 1 : 0;
             return {
-                price: ele.price,
+                price:
+                    hasWinner && idx === winnerIdx && ele.price >= reservationPrice
+                        ? `Winner: ${ele.price}`
+                        : ele.price,
                 name: ele.player.name,
                 init_value: ele.player.init_value,
                 time: ele.createdAt.split(".")[0].split("T").join(" "),
@@ -20,9 +24,9 @@ const Orders = (props) => {
             dataIndex: "price",
             // specify the condition of filtering result
             // here is that finding the name started with `value`
-            onFilter: (value, record) => record.name.indexOf(value) === 0,
-            sorter: (a, b) => a.price - b.price,
-            sortDirections: ["descend", "ascend"],
+            // onFilter: (value, record) => record.name.indexOf(value) === 0,
+            // sorter: (a, b) => a.price - b.price,
+            // sortDirections: ["descend", "ascend"],
         },
         {
             title: "Name",

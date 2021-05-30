@@ -5,10 +5,10 @@ const InfoDrawer = (props) => {
     const onClose = () => {
         props.onClose && props.onClose();
     };
-    console.log(props.data);
-    React.useEffect(()=>{
-console.log(props.data);
-    },[props])
+   //  console.log(props.data);
+//     React.useEffect(()=>{
+// console.log(props.data);
+//     },[props])
     return (
         <>
             <Drawer

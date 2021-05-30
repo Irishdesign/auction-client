@@ -46,7 +46,17 @@ const AuctionInfo = (props) => {
     const formatTime = (str) => {
         return str?.split(".")[0]?.replace("T", " ");
     };
+
+    const formatLabel = (ty) => {
+        switch (ty) {
+            case "from":
+                return value_type === constants.INIT_VALUE_TYPE.GAUSSIAN ? "std" : ty;
+            case "to":
+                return value_type === constants.INIT_VALUE_TYPE.GAUSSIAN ? "dev" : ty;
+        }
+    };
     const blank = "- -";
+
     return (
         <>
             <Descriptions title={"Title: " + title} column={5} vertical>
@@ -70,18 +80,18 @@ const AuctionInfo = (props) => {
                     <>
                         <Descriptions.Item label="Name">{playerInfo.name}</Descriptions.Item>
                         <Descriptions.Item label="init_value">{playerInfo.init_value}</Descriptions.Item>
-                        <Descriptions.Item label="current_value">{playerInfo.current_value}</Descriptions.Item>
+                        <Descriptions.Item label="current_value">{props.leftValue||playerInfo.current_value}</Descriptions.Item>
                     </>
                 ) : null}
                 {isPlayer ? null : (
                     <>
                         <Descriptions.Item label="User value type">{getValueTypeLabel(value_type)}</Descriptions.Item>
-                        <Descriptions.Item label="User value from">{from_std}</Descriptions.Item>
-                        <Descriptions.Item label="User value to">{to_dev}</Descriptions.Item>
+                        <Descriptions.Item label={`User value ${formatLabel("from")}`}>{from_std}</Descriptions.Item>
+                        <Descriptions.Item label={`User value ${formatLabel("to")}`}>{to_dev}</Descriptions.Item>
+                        <Descriptions.Item label="reservation_price">{reservation_price || 0}</Descriptions.Item>
                         {auc_type === constants.AUC_TYPE.SEALED1 || auc_type === constants.AUC_TYPE.SEALED2 ? null : (
                             <>
                                 <Descriptions.Item label="init_price">{init_price}</Descriptions.Item>
-                                <Descriptions.Item label="reservation_price">{reservation_price}</Descriptions.Item>
                             </>
                         )}
                         {winner ? (

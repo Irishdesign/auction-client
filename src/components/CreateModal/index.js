@@ -16,12 +16,14 @@ const CreateModal = (props) => {
     const [form] = Form.useForm();
     const [isAuto, setIsAuto] = React.useState(false);
     const [isSealed, setIsSealed] = React.useState(false);
+    const [isDutch, setIsDutch] = React.useState(false);
     const [isGaussian, setIsGaussian] = React.useState(false);
     //  const [type, setType] = React.useState();
     const { visible, close } = props;
     //  const dispatch = useDispatch();
     const onFinish = async (values) => {
-        console.log("onFinish", values);
+      //   console.log("onFinish", values);
+        values.is_auto = isAuto;
         const response = await utils.createAuction(values);
         close();
         window.open(`/?no=${response.no}`, "_self");
@@ -78,8 +80,9 @@ const CreateModal = (props) => {
                                 margin: "0 8px",
                             }}
                             onChange={(v) => {
-                                console.log("select", v);
+                              //   console.log("select", v);
                                 //   setType(v);
+                                setIsDutch(v === AUC_TYPE.DUTCH);
                                 setIsSealed(v === AUC_TYPE.SEALED1 || v === AUC_TYPE.SEALED2);
                             }}
                         >
@@ -89,7 +92,15 @@ const CreateModal = (props) => {
                             <Option value={AUC_TYPE.SEALED2}>SEALED2</Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item name="period" label="Time limitaion">
+                    <Form.Item
+                        name="period"
+                        label="Time limitaion"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
                         <InputNumber />
                     </Form.Item>
                     {!isSealed ? (
@@ -133,7 +144,7 @@ const CreateModal = (props) => {
                             //      margin: "0 8px",
                             //  }}
                             onChange={(v) => {
-                                console.log("setIsGaussian", v);
+                              //   console.log("setIsGaussian", v);
                                 setIsGaussian(v === INIT_VALUE_TYPE.GAUSSIAN);
                             }}
                         >
@@ -163,13 +174,14 @@ const CreateModal = (props) => {
                     >
                         <InputNumber />
                     </Form.Item>
-                    {!isSealed ? (
+                    {isDutch ? (
                         <Form.Item name="is_auto" label="is auto">
                             <Checkbox
                                 onChange={(e) => {
-                                    console.log("isAuto", e.target.checked);
+                                    // console.log("isAuto", e.target.checked);
                                     setIsAuto(e.target.checked);
                                 }}
+                                checked={isAuto}
                             />
                         </Form.Item>
                     ) : null}
