@@ -1,0 +1,36 @@
+@import "../../common.scss";
+.ListItem {
+    height: 45px;
+    display: flex;
+    line-height: 45px;
+    text-align: center;
+    min-width: 200px;
+    flex: 1;
+    .label {
+        width: 20%;
+        min-width: 130px;
+        @include mobile {
+            min-width: 80px;
+        }
+        background-color: #ddd;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    .text {
+        width: 100%;
+    }
+    border: 1px solid #ddd;
+    @include mobile {
+        //   border: 1px solid red;
+        //   flex-wrap: wrap;
+        border: 1px solid #ddd;
+        border-bottom: transparent;
+        &:last-child {
+            border-bottom: 1px solid #ddd;
+        }
+    }
+    //  border-bottom: transparent;
+    //  &:last-child {
+    //      border-bottom: 1px solid #ddd;
+    //  }
+}

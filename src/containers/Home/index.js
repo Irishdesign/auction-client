@@ -5,7 +5,7 @@ import { setCurrentAuction } from "../../store/action";
 
 import NavBar from "../../components/NavBar";
 import SideMenu from "../../components/SideMenu";
-import AuctionInfo from "../../components/AuctionInfo";
+import AuctionInfoDiv from "../../components/AuctionInfoDiv";
 import Orders from "../../components/Orders";
 import { useSelector, useDispatch } from "react-redux";
 import * as utils from "../../utils";
@@ -170,7 +170,7 @@ function App(props) {
                                 Close
                             </Button>
                         </div>
-                        <AuctionInfo data={current_auction_data} />
+                        <AuctionInfoDiv data={current_auction_data} />
                         {current_auction_data.auc_type === constants.AUC_TYPE.DUTCH && !current_auction_data.is_auto ? (
                             <div className="myOrder">
                                 <InputNumber onChange={(v) => setMyDeduct(v)} value={myDeduct} />

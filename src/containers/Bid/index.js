@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.scss";
 import * as url from "../../Endpoint";
-import AuctionInfo from "../../components/AuctionInfo";
+import AuctionInfoDiv from "../../components/AuctionInfoDiv";
 import * as constants from "../../constants";
 
 import { Form, Input, Button, message, InputNumber } from "antd";
@@ -20,7 +20,8 @@ const layout = {
 };
 const tailLayout = {
     wrapperCol: {
-        offset: 8,
+        sm: { offset: 0 },
+        md: { offset: 8 },
         span: 16,
     },
 };
@@ -29,7 +30,8 @@ function App(props) {
     const [form] = Form.useForm();
     const [myPrice, setMyPrice] = React.useState(0);
     const playerData = useSelector((state) => state.playerData);
-    const showPlayerPage = useSelector((state) => state.showPlayerPage);
+    //  const showPlayerPage = useSelector((state) => state.showPlayerPage);
+    const showPlayerPage = true;
     const [leftValue, setLeftValue] = React.useState();
     const [playerAuctionData, setPlayerAuctionData] = React.useState({});
     const dispatch = useDispatch();
@@ -45,7 +47,7 @@ function App(props) {
             return;
         }
         dispatch(setPlayerData(res));
-      //   setPlayerAuctionData(res.auction);
+        //   setPlayerAuctionData(res.auction);
         setMyPrice("");
         //   updateWithCountDown();
     };
@@ -54,7 +56,7 @@ function App(props) {
         form.setFieldsValue({
             auctionNo: query.no,
         });
-        return  query.no;
+        return query.no;
     }
     const onFill = () => {
         form.setFieldsValue({
@@ -62,9 +64,9 @@ function App(props) {
             name: "",
         });
     };
-   //  const handleTimerUpdate = async ()=>{
-   //    const res = await utils.createOrder(playerAuctionData.no, sendData);
-   //  }
+    //  const handleTimerUpdate = async ()=>{
+    //    const res = await utils.createOrder(playerAuctionData.no, sendData);
+    //  }
     const handleCreateOrder = async (isDutch) => {
         //   console.log(price);
         const sendData = {
@@ -91,9 +93,9 @@ function App(props) {
             res.then((data) => {
                 if (data) {
                     setPlayerAuctionData(data);
-                  //   console.log(77777,data)
-                    if(data.auc_type === constants.AUC_TYPE.DUTCH){
-                       setMyPrice(data.current_price);
+                    //   console.log(77777,data)
+                    if (data.auc_type === constants.AUC_TYPE.DUTCH) {
+                        setMyPrice(data.current_price);
                     }
                     if (!data.close_time) {
                         updateWithCountDown();
@@ -108,7 +110,12 @@ function App(props) {
             <div className="container">
                 {showPlayerPage ? (
                     <div className="auctionBlock">
-                        <AuctionInfo data={playerAuctionData} isPlayer={true} playerInfo={playerData} leftValue={leftValue} />
+                        <AuctionInfoDiv
+                            data={playerAuctionData}
+                            isPlayer={true}
+                            playerInfo={playerData}
+                            leftValue={leftValue}
+                        />
                         <div className="currentPrice">current price: {playerAuctionData?.current_price || "-"}</div>
                         {playerAuctionData?.type === constants.AUC_TYPE.DUTCH ? (
                             <Button
@@ -121,7 +128,7 @@ function App(props) {
                             </Button>
                         ) : null}
                         <div className="myOrder">
-                            <InputNumber onChange={(v) => setMyPrice(v)} value={myPrice}/>
+                            <InputNumber onChange={(v) => setMyPrice(v)} value={myPrice} />
                             <Button
                                 type="primary"
                                 onClick={() => {
@@ -152,7 +159,7 @@ function App(props) {
                                     },
                                 ]}
                             >
-                                <Input />
+                                <Input disabled />
                             </Form.Item>
                             <Form.Item
                                 name="name"

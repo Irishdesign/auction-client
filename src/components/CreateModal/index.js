@@ -7,8 +7,9 @@ const { Option } = Select;
 
 const tailLayout = {
     wrapperCol: {
-        offset: 8,
-        span: 16,
+        //   sm: { offset: 0 },
+        md: { offset: 11 },
+        //   span: 16,
     },
 };
 
@@ -22,7 +23,7 @@ const CreateModal = (props) => {
     const { visible, close } = props;
     //  const dispatch = useDispatch();
     const onFinish = async (values) => {
-      //   console.log("onFinish", values);
+        //   console.log("onFinish", values);
         values.is_auto = isAuto;
         const response = await utils.createAuction(values);
         close();
@@ -45,24 +46,13 @@ const CreateModal = (props) => {
                         span: 4,
                     }}
                     wrapperCol={{
-                        span: 14,
+                        span: 20,
                     }}
                     layout="horizontal"
                     form={form}
                     name="control-hooks"
                     onFinish={onFinish}
                 >
-                    <Form.Item
-                        name="title"
-                        label="title"
-                        rules={[
-                            {
-                                required: true,
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
                     <Form.Item
                         name="auc_type"
                         label="type"
@@ -73,15 +63,11 @@ const CreateModal = (props) => {
                         ]}
                     >
                         <Select
-                            //  value={value.currency || currency}
                             initialValue={AUC_TYPE.ENGLISH}
                             style={{
-                                width: 150,
-                                margin: "0 8px",
+                                width: "100%",
                             }}
                             onChange={(v) => {
-                              //   console.log("select", v);
-                                //   setType(v);
                                 setIsDutch(v === AUC_TYPE.DUTCH);
                                 setIsSealed(v === AUC_TYPE.SEALED1 || v === AUC_TYPE.SEALED2);
                             }}
@@ -93,15 +79,37 @@ const CreateModal = (props) => {
                         </Select>
                     </Form.Item>
                     <Form.Item
-                        name="period"
-                        label="Time limitaion"
+                        name="title"
+                        label="title"
                         rules={[
                             {
                                 required: true,
                             },
                         ]}
                     >
-                        <InputNumber />
+                        <Input
+                            style={{
+                                width: "100%",
+                            }}
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        name="period"
+                        label="Time limitaion"
+                        style={{
+                            width: "100%",
+                        }}
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        <InputNumber
+                            style={{
+                                width: "100%",
+                            }}
+                        />
                     </Form.Item>
                     {!isSealed ? (
                         <Form.Item
@@ -113,19 +121,30 @@ const CreateModal = (props) => {
                                 },
                             ]}
                         >
-                            <InputNumber />
+                            <InputNumber
+                                style={{
+                                    width: "100%",
+                                }}
+                            />
                         </Form.Item>
                     ) : null}
                     <Form.Item
                         name="reservation_price"
                         label="Resevation price"
+                        style={{
+                            width: "100%",
+                        }}
                         rules={[
                             {
                                 required: true,
                             },
                         ]}
                     >
-                        <InputNumber />
+                        <InputNumber
+                            style={{
+                                width: "100%",
+                            }}
+                        />
                     </Form.Item>
                     <Form.Item
                         name="value_type"
@@ -137,14 +156,11 @@ const CreateModal = (props) => {
                         ]}
                     >
                         <Select
-                            //  value={value.currency || currency}
                             initialValue={INIT_VALUE_TYPE.UNIFORM}
-                            //  style={{
-                            //      width: 150,
-                            //      margin: "0 8px",
-                            //  }}
+                            style={{
+                                width: "100%",
+                            }}
                             onChange={(v) => {
-                              //   console.log("setIsGaussian", v);
                                 setIsGaussian(v === INIT_VALUE_TYPE.GAUSSIAN);
                             }}
                         >
@@ -161,7 +177,11 @@ const CreateModal = (props) => {
                             },
                         ]}
                     >
-                        <InputNumber />
+                        <InputNumber
+                            style={{
+                                width: "100%",
+                            }}
+                        />
                     </Form.Item>
                     <Form.Item
                         name="to_dev"
@@ -172,7 +192,11 @@ const CreateModal = (props) => {
                             },
                         ]}
                     >
-                        <InputNumber />
+                        <InputNumber
+                            style={{
+                                width: "100%",
+                            }}
+                        />
                     </Form.Item>
                     {isDutch ? (
                         <Form.Item name="is_auto" label="is auto">
@@ -196,7 +220,11 @@ const CreateModal = (props) => {
                                     },
                                 ]}
                             >
-                                <InputNumber />
+                                <InputNumber
+                                    style={{
+                                        width: "100%",
+                                    }}
+                                />
                             </Form.Item>
                             <Form.Item
                                 name="auto_t_fragment"
@@ -207,12 +235,22 @@ const CreateModal = (props) => {
                                     },
                                 ]}
                             >
-                                <InputNumber />
+                                <InputNumber
+                                    style={{
+                                        width: "100%",
+                                    }}
+                                />
                             </Form.Item>
                         </>
                     ) : null}
                     <Form.Item {...tailLayout}>
-                        <Button type="primary" htmlType="submit">
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            style={{
+                                marginRight: 20,
+                            }}
+                        >
                             Submit
                         </Button>
                         <Button>cancel</Button>

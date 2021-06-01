@@ -1,9 +1,13 @@
 .container .bid {
-    width: 50%;
+    width: 100%;
+    max-width: 300px;
+    @media only screen and (max-width: 400px) {
+        width: 100%;
+    }
     margin: 0 auto;
     margin-top: 120px;
     text-align: center;
-    padding-right: 150px;
+    //  padding-right: 150px;
     .ant-form-item-control-input-content {
         display: flex;
         justify-content: space-evenly;
@@ -12,5 +16,15 @@
         width: 80%;
         margin: 0 auto;
         margin-top: 80px;
+    }
+    .control-hooks {
+        max-width: 200px;
+    }
+    .ant-row.ant-form-item {
+        .ant-col-offset-8 {
+            @media only screen and (max-width: 400px) {
+                margin-left: 0;
+            }
+        }
     }
 }
