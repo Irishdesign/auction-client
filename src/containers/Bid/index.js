@@ -30,8 +30,8 @@ function App(props) {
     const [form] = Form.useForm();
     const [myPrice, setMyPrice] = React.useState(0);
     const playerData = useSelector((state) => state.playerData);
-    //  const showPlayerPage = useSelector((state) => state.showPlayerPage);
-    const showPlayerPage = true;
+    const showPlayerPage = useSelector((state) => state.showPlayerPage);
+    //  const showPlayerPage = true;
     const [leftValue, setLeftValue] = React.useState();
     const [playerAuctionData, setPlayerAuctionData] = React.useState({});
     const dispatch = useDispatch();
