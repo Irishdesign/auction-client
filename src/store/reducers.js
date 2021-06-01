@@ -68,10 +68,10 @@ const initialState = {
     showMenu: false,
     showCreatePanel: false,
     showPlayerPage: false,
-    currentAuction: mockAuction,
-    //  currentAuction: {},
-    playerData: mockPlayer,
-    //  playerData: {},
+    //  currentAuction: mockAuction,
+    currentAuction: {},
+    //  playerData: mockPlayer,
+    playerData: {},
     playerAuctionData: {},
 };
 export function dataReducer(state = initialState, action) {
