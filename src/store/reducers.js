@@ -64,14 +64,13 @@ const mockAuction = {
 const initialState = {
     user: {},
     isLogin: false,
-    currentCountry: "globle",
     showMenu: false,
     showCreatePanel: false,
     showPlayerPage: false,
-    //  currentAuction: mockAuction,
-    currentAuction: {},
-    //  playerData: mockPlayer,
-    playerData: {},
+   //  currentAuction: mockAuction,
+     currentAuction: {},
+   //  playerData: mockPlayer,
+     playerData: {},
     playerAuctionData: {},
 };
 export function dataReducer(state = initialState, action) {
@@ -98,9 +97,14 @@ export function dataReducer(state = initialState, action) {
             };
         case types.LOG_OUT:
             return {
-                ...state,
                 isLogin: false,
                 user: {},
+                showMenu: false,
+                showCreatePanel: false,
+                showPlayerPage: false,
+                currentAuction: {},
+                playerData: {},
+                playerAuctionData: {},
             };
         case types.SET_SHOW_CREATE:
             return {

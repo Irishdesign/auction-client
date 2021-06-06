@@ -16,19 +16,32 @@ export const login = (values, callback) => {
     );
 };
 
-export const signup = (values, callback) => {
+export const signup = (values) => {
     return axios.post(url.SIGNUP_API, values).then(
         (response) => {
-            // console.log(response);
-            login(values);
-            callback && callback();
-            return response;
+            return response.data;
         },
         (error) => {
             console.log(error);
         }
     );
 };
+
+// old design: everyone can register
+// export const signup = (values, callback) => {
+//    return axios.post(url.SIGNUP_API, values).then(
+//        (response) => {
+//            // console.log(response);
+//            login(values);
+//            callback && callback();
+//            return response;
+//        },
+//        (error) => {
+//            console.log(error);
+//        }
+//    );
+// };
+
 const TOKEN = localStorage.getItem(constants.SESSION_KEY);
 export const getUserInfo = () => {
     const TOKEN = localStorage.getItem(constants.SESSION_KEY);
@@ -51,7 +64,7 @@ export const getUserInfo = () => {
 
 export const getMenu = () => {
     const TOKEN = localStorage.getItem(constants.SESSION_KEY);
-   //  console.log("getMenu token", TOKEN);
+    //  console.log("getMenu token", TOKEN);
 
     return axios({
         method: url.GET, //you can set what request you want to be
@@ -72,7 +85,7 @@ export const getMenu = () => {
 
 export const createAuction = (data) => {
     const TOKEN = localStorage.getItem(constants.SESSION_KEY);
-   //  console.log("createAuction token", TOKEN);
+    //  console.log("createAuction token", TOKEN);
     return axios({
         method: url.POST, //you can set what request you want to be
         url: url.create_AUCTION_API,
@@ -93,7 +106,7 @@ export const createAuction = (data) => {
 
 export const createOrder = (no, data) => {
     const TOKEN = localStorage.getItem(constants.SESSION_KEY);
-   //  console.log("createOrder token", TOKEN);
+    //  console.log("createOrder token", TOKEN);
     return axios({
         method: url.POST,
         url: url.create_ORDER_API(no),
@@ -127,7 +140,7 @@ export const createPlayer = (no, name) => {
 };
 
 export const getPlayerAuction = (no) => {
-   //  console.log("getPlayerAuction token", no);
+    //  console.log("getPlayerAuction token", no);
     return axios({
         method: url.GET,
         url: url.get_PLAYER_AUCTION_API(no),
@@ -161,7 +174,7 @@ export const getAuction = (no) => {
 };
 
 export const startAuction = (no, data) => {
-   //  console.log("startAuction token", TOKEN);
+    //  console.log("startAuction token", TOKEN);
     return axios({
         method: url.GET,
         url: url.start_AUCTION_API(no),
@@ -180,7 +193,7 @@ export const startAuction = (no, data) => {
 };
 
 export const closeAuction = (no, data) => {
-   //  console.log("closeAuction token", TOKEN);
+    //  console.log("closeAuction token", TOKEN);
     return axios({
         method: url.GET,
         url: url.close_AUCTION_API(no),
@@ -199,20 +212,20 @@ export const closeAuction = (no, data) => {
 };
 
 export const deductAuction = (no, v) => {
-   return axios({
-       method: url.POST,
-       url: url.deduct_AUCTION_API(no),
-       headers: {
-           "x-access-token": TOKEN,
-       },
-       data: {deductValue:v},
-   }).then(
-       (response) => {
-           console.log("deductAuction", response);
-           return response.data;
-       },
-       (error) => {
-           console.log(error);
-       }
-   );
+    return axios({
+        method: url.POST,
+        url: url.deduct_AUCTION_API(no),
+        headers: {
+            "x-access-token": TOKEN,
+        },
+        data: { deductValue: v },
+    }).then(
+        (response) => {
+            console.log("deductAuction", response);
+            return response.data;
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
 };

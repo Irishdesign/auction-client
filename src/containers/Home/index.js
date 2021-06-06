@@ -21,6 +21,7 @@ function App(props) {
     const [isClosed, setIsClosed] = useState(false);
     const current_auction_data = useSelector((state) => state.currentAuction);
     const showMenu = useSelector((state) => state.showMenu);
+    const isLogin = useSelector((state) => state.isLogin);
     const dispatch = useDispatch();
     React.useEffect(() => {
         QueryParamsDemo();
@@ -149,8 +150,8 @@ function App(props) {
             <NavBar />
             <div className="container">
                 {showMenu ? <SideMenu /> : null}
-                {!current_auction_data.no ? (
-                    <h1>hellow world</h1>
+                {!isLogin ? (
+                    <div className="remider">Please login</div>
                 ) : (
                     <div className="auctionBlock">
                         <div className="start_btn">

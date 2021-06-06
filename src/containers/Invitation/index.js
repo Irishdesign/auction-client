@@ -12,7 +12,7 @@ function App(props) {
 
     function QueryParamsDemo() {
         let query = queryString.parse(props.location.search);
-        //   console.log(query);
+      //   console.log(query);
         setInfo(query);
     }
     const url = `/bid?no=${info.no}`;
@@ -25,7 +25,7 @@ function App(props) {
                     <h3>Auction title: {info.title}</h3>
                     <h3>Auction no: {info.no}</h3>
                     <div className="qrCode">
-                        <QRCode value={`https://competent-hamilton-0a00a7.netlify.app${url}`} />
+                        <QRCode value={url} />
                     </div>
                     <div>
                         <Link to={url} target="_blank">
